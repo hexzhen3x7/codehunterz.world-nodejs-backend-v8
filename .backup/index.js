@@ -2,9 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 const utils = require('rjutils-collection');
-const https = require('https');
-const http = require('http');
-const fs = require('fs');
 
 const app = express();
 
@@ -54,18 +51,9 @@ app.get('/api', (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
-// Listen both http & https ports
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer({
-  key: fs.readFileSync('/etc/letsencrypt/live/blackzspace.de-0001/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/blackzspace.de-0001/fullchain.pem'),
 
-  
-}, app);
-
-
-
-console.log(`
+app.listen(8081, ()=> {
+  console.log(`
 
     ░░██████═╗░██╗░░░░░░░░░░███═╗░░░░░░██████╗░██╗░░██╗░██████╗░███████╗░██████═╗░░░░███═╗░░░░░░██████╗░██████╗░░░░░██████═╗░██████╗░░
     ░░██║░░██╝░██║░░░░░░░░░██╗██╚╗░░░░██═════╝░██║ ██═╝░░░░░██║░██═════╝░██║░░██║░░░██╗██╚╗░░░░██═════╝░██════╝░░░░░██║░░██║░██════╝░░
@@ -74,12 +62,5 @@ console.log(`
     ░░██████╔╝░███████╗░██╔╝░░░░░██║░░░██████╗░██║░░██║░██████╗░███████║░██║░░░░░██╔╝░░░░░██║░░░██████╗░██████╗░██╗░██████╔╝░██████╗░░
     ░░╚═════╝░░╚══════╝░╚═╝░░░░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝░╚═════╝░╚══════╝░╚═╝░░░░░╚═╝░░░░░░╚═╝░░░╚═════╝░╚═════╝░╚═╝░╚═════╝░░╚═════╝░░
     `);
-
-httpServer.listen(8080, () => {
-    
-  console.log("Console > Running on PORT:  8080")
-});
-
-httpsServer.listen(8081, () => {
   console.log("Console > Running on PORT:  8081")
-});
+})
