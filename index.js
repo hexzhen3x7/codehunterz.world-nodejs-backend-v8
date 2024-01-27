@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 const utils = require('rjutils-collection');
-const https = require("https"); 
-const fs = require("fs"); 
+
 const app = express();
 
 
@@ -52,14 +51,7 @@ app.get('/api', (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
-const options = { 
-  key: fs.readFileSync("server.key"), 
-  cert: fs.readFileSync("server.cert"), 
-}; 
 
-
-https.createServer(options, app) 
-.listen(3000, (req, res) => { 
-  console.log("Server started at port 3000"); 
-});
-  
+app.listen(8081, ()=> {
+  console.log("Console > Running on PORT:  8081")
+})

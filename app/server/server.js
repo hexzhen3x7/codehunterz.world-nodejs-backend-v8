@@ -1,43 +1,51 @@
 const express = require('express');
-const mysql = require('mysql')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-const jwt = require('jsonwebtoken')
-
-
+const cors = require('cors');
+const mysql = require('mysql');
+const utils = require('rjutils-collection');
+const https = require("https"); 
+const fs = require("fs"); 
 const app = express();
+
+
+
+app.use(cors());
 app.use(express.json());
-app.use(cors(
-    {
-    origin: "http://localhost:3000/",
-    methods: ["POST, GET"],
-    credentials: true
-    }
-))
 
 const db = mysql.createConnection({
-    host: "192.168.178.43",
-    user: "x3pc092201",
-    password: "cr0nicalz96",
-    database: "userdata"
-})
+  host: "45.131.109.129",
+  user: "x3pc092201",
+  password: "cr0nicalz96",
+  database: "blackzspacededbx"
+});
 
+app.post('/login', (req, res) => {
+  const sql = "SELECT * FROM login_table WHERE username = ? AND password = ?";
+  const hashed = utils.hashStr({ text: req.body.password, algorithm: 'sha256', output: 'hex' })
 
-app.post("login", (req, res) => {
-    const sql = "SELECT * FROM LOGIN WHERE Username = ? AND Password = ?"
-    db.query(sql, [req.body.username, req.body.password], (err, data) => {
-        if(err) return res.json({Message: "Servside Error"});
-        if(data.length > 0) {
-            const username = data[0].username;
-            const token = jwt.sign({username}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
-            res.cookie("roken", token);
-            return res.json({Status: "Success"})
+  db.query(sql, [req.body.user, hashed], (err, data) => {
+    if(err) return res.json("Login failed");
+    if(data.length > 0) {
+      return res.json({ message: "Login Succesfull!"});
+    } else {
+      return res.json("No Record!")
+    }
+  });
+});
 
-        } else {
-            return res.json({Message: "NO Records existed"});
-        }
-    })
-})
+app.post('/register', (req, res) => {
+  const username = req.body.username;
+  const email = req.body.email;
+  const hashed = utils.hashStr({ text: req.body.password, algorithm: 'sha256', output: 'hex' })
+  db.query("INSERT INTO login_table (username, password, email) VALUES(?, ?, ?)", [username, hashed, email],
+  (err, result) => {
+    if(result){
+      return res.json({message: "Registered!"});
+    } else {
+      return res.json({message: "ENTER CORRECT ASKED DETAILS"})
+    }
+  })
+
+});
 
 
 app.listen(8081, ()=> {
