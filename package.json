@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app/server/index.js",
-    "build": "sudo docker build -t blackleakzde/backend:current . && sudo docker tag blackleakzde/backend:current blackleakzde/backend && udo docker push blackleakzde/backend:current"
+    "build": "sudo docker build -t blackleakzde/backend:current . && sudo docker tag blackleakzde/backend:current blackleakzde/backend && sudo docker push blackleakzde/backend:current"
     
   },
   "keywords": [],
