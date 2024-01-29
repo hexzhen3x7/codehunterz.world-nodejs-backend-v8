@@ -5,7 +5,9 @@
   "main": "app/server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app/server/index.js"
+    "start": "node src/app/server/index.js",
+    "build": "docker build -t blackzspace.de/backend:latest . && docker tag blackzspace.de/backend:latest blackzspace.de/backend && docker push blackzspace.de/backend:latest"
+    
   },
   "keywords": [],
   "author": "",
