@@ -2,12 +2,13 @@
 
 FROM node:latest
 
-WORKDIR /src/bin/app
+WORKDIR /app
 
 COPY . .
 
-RUN npm i
+RUN npm install
+COPY . .
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]
 
 EXPOSE 8081
