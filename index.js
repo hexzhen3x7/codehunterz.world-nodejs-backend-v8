@@ -43,9 +43,9 @@ app.post('/register', (req, res) => {
   db.query("INSERT INTO login_table (username, password, email) VALUES(?, ?, ?)", [username, hashed, email],
   (err, result) => {
     if(result){
-      return res.json({registerstatus: "Registered!"});
+      res.json({message: "Registered!"});
     } else {
-      return res.json({registerstatus: "ENTER CORRECT ASKED DETAILS"})
+      res.json({message: "ENTER CORRECT ASKED DETAILS"})
     }
   })
 
