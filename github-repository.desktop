@@ -1,0 +1,6 @@
+[Desktop Entry]
+Icon=preferences-git
+Name[de_DE]=github-repository
+Name=github-repository
+Type=Link
+URL[$e]=https://github.com/www-blackzspace-de/blackzspace.de-nodejs-backend-v8
