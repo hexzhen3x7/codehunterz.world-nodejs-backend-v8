@@ -5,11 +5,10 @@
   "main": "app/server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "node src/index.js",
     "user-server": "node src/app/user-server/index.js",
     "urls-api-server": "node src/app/urls-api-server/index.js",
     "docker": "sudo docker build -t blackleakzde/blackzspace-de-backend:current . && sudo docker tag blackleakzde/blackzspace-de-backend:current blackleakzde/blackzspace-de-backend && sudo docker push blackleakzde/backend:current"
-    
   },
   "keywords": [],
   "author": "",
@@ -21,6 +20,7 @@
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
     "mysql": "^2.18.1",
     "rjutils-collection": "^1.8.0"
   }
