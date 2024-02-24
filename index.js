@@ -6,6 +6,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 
+
 const app = express();
 
 
@@ -15,12 +16,16 @@ console.log("Console > Starting Account-Server!!...");
 app.use(cors());
 app.use(express.json());
 
+
 const db = mysql.createConnection({
   host: "45.131.109.129",
   user: "x3pc092201",
   password: "cr0nicalz96",
   database: "blackzspacededbx"
 });
+
+
+
 
 app.post('/login', (req, res) => {
   const sql = "SELECT * FROM login_table WHERE username = ? AND password = ?";
@@ -35,6 +40,8 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+
 
 app.post('/register', (req, res) => {
   const username = req.body.username;
@@ -52,11 +59,14 @@ app.post('/register', (req, res) => {
 });
 
 
+
+
 app.get('/api', (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
-// Listen both http & https ports
+
+
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer({
   key: fs.readFileSync('./keys/blackzspace.de-0001/privkey.pem'),
