@@ -61,8 +61,17 @@ app.post('/register', (req, res) => {
 
 
 
-app.get('/api', (req, res) => {
-    res.json({ message: "Hello from server!" });
+app.post('/ip', (req, res) => {
+  const ip = req.body.ip;
+  fs.writeFile('ip.txt', ip, err => {
+    if (err) {
+      console.error(err);
+    } else {
+      res.json({ message: "IP SAVED!" });
+    }
+  });
+    
+
 });
 
 
