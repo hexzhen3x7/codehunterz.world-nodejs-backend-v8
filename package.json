@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mysql": "^2.18.1",
+    "request-ip": "^3.3.0",
     "rjutils-collection": "^1.8.0"
   }
 }

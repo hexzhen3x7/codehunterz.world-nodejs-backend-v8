@@ -6,7 +6,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 
-var moment = require('moment')
+const requestIP = require('request-ip');
 const app = express();
 
 
@@ -63,17 +63,14 @@ app.post('/register', (req, res) => {
 
 app.post('/ip', (req, res) => {
   const ip = req.body.ip;
-  var created = moment().format('YYYY-MM-DD hh:mm:ss')
-  fs.writeFile('ip.txt', ip, err => {
+  const ipAddress = requestIP.getClientIp(req);
+  
+  fs.writeFile('ip.txt', ipAddress, err => {
     if (err) {
       console.error(err);
     } else {
       res.json({ message: "IP SAVED!" });
     }
-  });
-  fs.appendFile('ip.txt', created, function (err) {
-    if (err) throw err;
-    console.log('Saved!');
   });
     
 
