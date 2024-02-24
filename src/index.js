@@ -60,9 +60,7 @@ app.post('/register', (req, res) => {
 
 
 
-
 app.post('/ip', (req, res) => {
-  const ip = req.body.ip;
   const ipAddress = requestIP.getClientIp(req);
   
   fs.writeFile('ip.txt', ipAddress, err => {
