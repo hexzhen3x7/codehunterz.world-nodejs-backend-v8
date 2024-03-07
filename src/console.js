@@ -1,33 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const mysql = require('mysql');
-const utils = require('rjutils-collection');
-const https = require('https');
-const http = require('http');
 const fs = require('fs');
-const requestIP = require('request-ip');
-const app = express();
+const path = require('path');
 
-
-
-
-console.log("Console > Starting Account-Server!!...");
-
-
-app.use(cors());
-app.use(express.json());
-
-
-
-
-
-
-const db = mysql.createConnection({
-  host: "45.131.109.129",
-  user: "x3pc092201",
-  password: "cr0nicalz96",
-  database: "blackzspacededbx"
-});
 
 
 
@@ -42,80 +15,46 @@ let minutes = date_time.getMinutes();
 
 
 
-app.post('/login', (req, res) => {
-  const sql = "SELECT * FROM login_table WHERE username = ? AND password = ?";
-  const hashed = utils.hashStr({ text: req.body.password, algorithm: 'sha256', output: 'hex' })
 
-  db.query(sql, [req.body.user, hashed], (err, data) => {
-    if(err) return res.json("Login failed");
-    if(data.length > 0) {
-      return res.json({ message: "Login Succesfull!"});
-    } else {
-      return res.json("No Record!")
-    }
+const readline = require('node:readline').createInterface({
+    input: process.stdin,
+    output: process.stdout,
   });
-});
+
+    
+
+
+function readContents() {
+    const directoryPath = path.join(__dirname, '.logs');
+            fs.readdir(directoryPath, function (err, files) {
+                if (err) {
+                    return console.log('Unable to scan directory: ' + err);
+                } 
+                files.forEach(function (file) {
+                    console.log(file); 
+                });
+            });
+}
+
+
+function printLogged() {
+    const directoryPath = path.join(__dirname, '.logs/visitors');
+            fs.readdir(directoryPath, function (err, files) {
+                if (err) {
+                    return console.log('Unable to scan directory: ' + err);
+                } 
+                files.forEach(function (file) {
+                    console.log(file); 
+                });
+            });
+}
 
 
 
+function loop() {
+    console.log(hours + ":" + minutes + "-" + month + "-" + date);
 
-
-app.post('/register', (req, res) => {
-  const username = req.body.username;
-  const email = req.body.email;
-  const hashed = utils.hashStr({ text: req.body.password, algorithm: 'sha256', output: 'hex' })
-  db.query("INSERT INTO login_table (username, password, email) VALUES(?, ?, ?)", [username, hashed, email],
-  (err, result) => {
-    if(result){
-      res.json({message: "Registered!"});
-    } else {
-      res.json({message: "ENTER CORRECT ASKED DETAILS"})
-    }
-  })
-
-});
-
-
-
-
-
-app.post('/ip', (req, res) => {
-  const ipAddress = requestIP.getClientIp(req);
-  let date_ob = new Date();
-
-  fs.writeFile('.logs/visitors/ip.txt', ipAddress, err => {
-    if (err) {
-      console.error(err);
-    } else {
-      res.json({ message: "IP SAVED!" });
-    }
-  });
-   
-  const newLogs = `${Date.now()}: new logs`;
-  fs.readFile('ip.txt', { encoding: 'utf8' }, (err, data) => {
-      const newData = data + newLogs + '\n';
-      fs.writeFile('ip.txt', newData, 'utf8', callback);
-  });
-});
-
-
-
-
-
-
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer({
-  key: fs.readFileSync('./keys/blackzspace.de-0001/privkey.pem'),
-  cert: fs.readFileSync('./keys/blackzspace.de-0001/fullchain.pem'),
-
-  
-}, app);
-
-
-
-
-
-console.log(`
+    console.log(`
 
     ░░██████═╗░██╗░░░░░░░░░░███═╗░░░░░░██████╗░██╗░░██╗░██████╗░███████╗░██████═╗░░░░███═╗░░░░░░██████╗░██████╗░░░░░██████═╗░██████╗░░
     ░░██║░░██╝░██║░░░░░░░░░██╗██╚╗░░░░██═════╝░██║ ██═╝░░░░░██║░██═════╝░██║░░██║░░░██╗██╚╗░░░░██═════╝░██════╝░░░░░██║░░██║░██════╝░░
@@ -126,17 +65,23 @@ console.log(`
     `);
 
 
-    
+    console.log("===========================================================");
+    console.log("== blackzspace.de || BACKEND SERVER || Console           ==");
+    console.log("===========================================================");
+    console.log("== 1: List LogFiles   || 2: Print Logged IP's            ==");
+    console.log("===========================================================");
+    console.log("===========================================================");
+    console.log("===========================================================");
 
+    readline.question(`Console > `, cmd => {
+        console.log(`Choice: ${cmd}`);
+        if (cmd == "1") {
+            readContents();
+        }
+        readline.close();
+      });
 
+      
+}
 
-httpServer.listen(8080, () => {
-    
-  console.log("Console > HTTP Running on PORT:  8080")
-});
-
-
-
-httpsServer.listen(8081, () => {
-  console.log("Console > HTTPS Running on PORT:  8081")
-});
+loop();
