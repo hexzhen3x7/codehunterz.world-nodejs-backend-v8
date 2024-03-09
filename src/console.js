@@ -52,7 +52,7 @@ function printLogged() {
 
 
 function loop() {
-    console.log(hours + ":" + minutes + "-" + month + "-" + date);
+    console.log(hours + ":" + minutes + "-" + month + "-" + date);  
 
     console.log(`
 
